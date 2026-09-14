@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { LegalPage } from "@/components/legal-page";
+export const Route=createFileRoute("/terms")({head:()=>({meta:[{title:"Terms & Conditions — Dr. Abdullah"},{name:"description",content:"Website terms and conditions for Dr. Abdullah physiotherapy."},{property:"og:title",content:"Terms & Conditions — Dr. Abdullah"},{property:"og:description",content:"Terms for using the Dr. Abdullah physiotherapy website."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary"}],links:[{rel:"canonical",href:"/terms"}]}),component:()=> <LegalPage title="Terms & Conditions" intro="These editable website terms are a starting point only and require professional review before publication."/>});
