@@ -1,0 +1,26 @@
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { Instagram, Linkedin, Menu, Phone, MessageCircle, Mail, X, ArrowUpRight, Activity } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { site } from "@/lib/site-data";
+
+const links = [["Home", "/"], ["About", "/about"], ["Services", "/services"], ["Photos", "/photos"], ["Blogs", "/blog"], ["Contact", "/contact"]] as const;
+
+export function Brand() {
+  return <Link to="/" className="group flex items-center gap-3" aria-label="Dr. Abdullah home"><span className="grid size-10 place-items-center rounded-md bg-primary text-primary-foreground"><Activity className="size-5" /></span><span><span className="block text-base font-extrabold text-navy">Dr. Abdullah</span><span className="block text-[10px] font-bold uppercase tracking-[.18em] text-primary">Physiotherapist</span></span></Link>;
+}
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  return <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 backdrop-blur-xl"><div className="container-site flex h-20 items-center justify-between"><Brand /><nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">{links.map(([label,to]) => <Link key={to} to={to} activeProps={{className:"text-primary"}} className="text-sm font-semibold text-muted-foreground transition-colors hover:text-primary">{label}</Link>)}</nav><div className="hidden items-center gap-2 lg:flex"><a aria-label="Instagram placeholder" href={site.instagram} className="p-2 text-muted-foreground hover:text-primary"><Instagram className="size-4" /></a><a aria-label="LinkedIn placeholder" href={site.linkedin} className="p-2 text-muted-foreground hover:text-primary"><Linkedin className="size-4" /></a><Button asChild><Link to="/contact">Book Consultation <ArrowUpRight /></Link></Button></div><Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu" onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</Button></div>{open&&<nav className="container-site border-t border-border py-5 lg:hidden" aria-label="Mobile navigation"><div className="grid gap-1">{links.map(([label,to])=><Link key={to} to={to} onClick={()=>setOpen(false)} className="rounded-md px-3 py-3 text-base font-semibold hover:bg-accent">{label}</Link>)}<Button asChild size="lg" className="mt-3"><Link to="/contact" onClick={()=>setOpen(false)}>Book Consultation</Link></Button></div></nav>}</header>;
+}
+
+export function SiteFooter() {
+  return <footer className="bg-navy pb-24 pt-16 text-primary-foreground md:pb-10"><div className="container-site grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.2fr]"><div><Brand /><p className="mt-5 max-w-xs text-sm leading-7 text-primary-foreground/70">Personalized, evidence-informed physiotherapy focused on confident movement and lasting progress.</p></div><FooterList title="Explore" items={links.slice(1)} /><FooterList title="Information" items={[["Privacy Policy","/privacy-policy"],["Terms & Conditions","/terms"],["Medical Disclaimer","/medical-disclaimer"]] as const} /><div><h2 className="text-sm font-bold uppercase tracking-[.12em]">Contact</h2><div className="mt-5 space-y-3 text-sm text-primary-foreground/70"><p>{site.phone}</p><p>{site.email}</p><p>{site.location}</p><div className="flex gap-3 pt-2"><Instagram/><Linkedin/></div></div></div></div><div className="container-site mt-14 border-t border-primary-foreground/15 pt-6 text-xs text-primary-foreground/55">© 2026 Dr. Abdullah. All rights reserved. Replace all placeholder details before publishing.</div></footer>;
+}
+function FooterList({title,items}:{title:string;items:readonly (readonly [string,string])[]}) { return <div><h2 className="text-sm font-bold uppercase tracking-[.12em]">{title}</h2><ul className="mt-5 space-y-3">{items.map(([label,to])=><li key={to}><Link to={to} className="text-sm text-primary-foreground/70 hover:text-primary-foreground">{label}</Link></li>)}</ul></div> }
+
+export function ContactDock() {
+  return <><aside className="fixed right-0 top-1/2 z-40 hidden -translate-y-1/2 overflow-hidden rounded-l-md border border-border bg-card shadow-xl md:block" aria-label="Quick contact"><Dock href={`tel:${site.phone}`} label="Call" icon={Phone}/><Dock href="#whatsapp-placeholder" label="WhatsApp" icon={MessageCircle}/><Link to="/contact" className="flex flex-col items-center gap-1 border-t border-border px-3 py-4 text-[10px] font-bold uppercase text-primary hover:bg-accent"><Mail className="size-4"/>Contact</Link></aside><div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-3 border-t border-border bg-card shadow-2xl md:hidden"><Dock href={`tel:${site.phone}`} label="Call" icon={Phone}/><Dock href="#whatsapp-placeholder" label="WhatsApp" icon={MessageCircle}/><Link to="/contact" className="flex items-center justify-center gap-2 border-l border-border py-3 text-xs font-bold text-primary"><Mail className="size-4"/>Contact</Link></div></>;
+}
+function Dock({href,label,icon:Icon}:{href:string;label:string;icon:typeof Phone}) { return <a href={href} className="flex items-center justify-center gap-2 border-l border-border px-3 py-3 text-xs font-bold text-primary hover:bg-accent md:flex-col md:border-b md:border-l-0 md:py-4 md:text-[10px] md:uppercase"><Icon className="size-4"/>{label}</a> }
